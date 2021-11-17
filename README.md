@@ -4,6 +4,11 @@ modified:
 lib/writer/database_builder_writer.dart
 lib/writer/database_writer.dart
 
+usage:
+```dart
+database = await $FloorAppDatabase.databaseBuilder('1.db').addMigrations(_migrations).build('123');
+```
+
 # Floor
 **The typesafe, reactive and lightweight SQLite abstraction for your Flutter applications (iOS, Android, Linux, macOS, Windows)**
 
