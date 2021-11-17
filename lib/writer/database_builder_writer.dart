@@ -60,20 +60,35 @@ class DatabaseBuilderWriter extends Writer {
     final buildMethod = Method((builder) => builder
       ..returns = refer('Future<$_databaseName>')
       ..name = 'build'
+      ..optionalParameters.add(Parameter((builder) => builder
+        ..name = 'password'
+        ..type = refer('String')
+      ))
       ..modifier = MethodModifier.async
       ..docs.add('/// Creates the database and initializes it.')
+
+      // --- ison.zhang add 03
       ..body = Code('''
         final path = name != null
-          ? await sqfliteDatabaseFactory.getDatabasePath(name)
+          ? await sqfliteDatabaseFactory.getDatabasePath(name!)
           : ':memory:';
         final database = _\$$_databaseName();
         database.database = await database.open(
           path,
+          password,
           _migrations,
           _callback,
         );
         return database;
-      '''));
+      ''')
+      ..requiredParameters.add(Parameter((builder) => builder
+        ..name = 'password'
+        ..type = refer('String')
+        ..defaultTo = Code.scope((p0) => '')
+      ))
+      // --- end ison.zhang add 03
+
+    );
 
     return Class((builder) => builder
       ..name = databaseBuilderName

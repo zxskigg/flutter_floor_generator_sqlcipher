@@ -1,3 +1,9 @@
+fork floor_generator
+
+modified:
+lib/writer/database_builder_writer.dart
+lib/writer/database_writer.dart
+
 # Floor
 **The typesafe, reactive and lightweight SQLite abstraction for your Flutter applications (iOS, Android, Linux, macOS, Windows)**
 
@@ -28,3 +34,4 @@ For general communication use [floor's Slack](https://join.slack.com/t/floor-flu
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
+

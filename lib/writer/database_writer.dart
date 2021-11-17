@@ -92,6 +92,13 @@ class DatabaseWriter implements Writer {
     final pathParameter = Parameter((builder) => builder
       ..name = 'path'
       ..type = refer('String'));
+
+    //--- ison.zhang add 01
+    final passwordParameter = Parameter((builder) => builder
+      ..name = 'password'
+      ..type = refer('String'));
+    // --- end ison.zhang add 01
+
     final migrationsParameter = Parameter((builder) => builder
       ..name = 'migrations'
       ..type = refer('List<Migration>'));
@@ -103,13 +110,18 @@ class DatabaseWriter implements Writer {
       ..name = 'open'
       ..returns = refer('Future<sqflite.Database>')
       ..modifier = MethodModifier.async
-      ..requiredParameters.addAll([pathParameter, migrationsParameter])
       ..optionalParameters.add(callbackParameter)
+
+      //--- ison.zhang add 02
+      ..requiredParameters.addAll([pathParameter, passwordParameter, migrationsParameter])
       ..body = Code('''
-          final databaseOptions = sqflite.OpenDatabaseOptions(
+          return await sqflite.openDatabase(
+            path,
+            password: password,
             version: ${database.version},
             onConfigure: (database) async {
               await database.execute('PRAGMA foreign_keys = ON');
+              await callback?.onConfigure?.call(database);
             },
             onOpen: (database) async {
               await callback?.onOpen?.call(database);
@@ -127,8 +139,9 @@ class DatabaseWriter implements Writer {
               await callback?.onCreate?.call(database, version);
             },
           );
-          return sqfliteDatabaseFactory.openDatabase(path, options: databaseOptions);
           '''));
+      //--- end ison.zhang add 02
+
   }
 
   @nonNull

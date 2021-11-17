@@ -35,13 +35,14 @@ void main() {
         }
 
         /// Creates the database and initializes it.
-        Future<FooBar> build() async {
+        Future<FooBar> build({String password: ''}) async {
           final path = name != null
             ? await sqfliteDatabaseFactory.getDatabasePath(name)
             : ':memory:'; 
           final database = _$FooBar();
           database.database = await database.open(
             path,
+            password,
             _migrations,
             _callback,
           );
