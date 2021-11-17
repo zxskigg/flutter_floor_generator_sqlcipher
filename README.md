@@ -1,8 +1,8 @@
 fork floor_generator
 
 modified:
-lib/writer/database_builder_writer.dart
-lib/writer/database_writer.dart
+- lib/writer/database_builder_writer.dart
+- lib/writer/database_writer.dart
 
 usage:
 ```dart
